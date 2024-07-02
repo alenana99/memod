@@ -46,7 +46,7 @@ Dorado is a high-performance, easy-to-use, open source basecaller for Oxford Nan
 See [Dorado](https://github.com/nanoporetech/dorado)
 
 ### Download methylation models
-To check the [avaiable basecalling models](https://github.com/nanoporetech/dorado?tab=readme-ov-file#available-basecalling-models)
+Check the [avaiable basecalling models](https://github.com/nanoporetech/dorado?tab=readme-ov-file#available-basecalling-models)
 ```
 dorado download --model <CHOSEN MODEL>
 ```
