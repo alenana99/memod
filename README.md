@@ -203,7 +203,7 @@ CC <- subset(geneID_goID_merged, Ontology == "CC")
 S_BP <- data.frame(BP$gene_ID)
 names(S_BP) <- c("g")
 ```
-Now, we can use the methylated positions from the MicrobeMod call_methylation output file (<LIBRARY_NAME>_methylated_sites.tsv) and the start and end positions of each gene from the GFF3 annotation file to count the number of methylations per gene.
+Now, we can use the methylated positions from the MicrobeMod *call_methylation* output file (<LIBRARY_NAME>_methylated_sites.tsv) and the start and end positions of each gene from the GFF3 annotation file to count the number of methylations per gene.
 !! We can also first divide by methylation type and then count the number of methylations and, if we want, we can do the same for upstream positions (200bp upstream)
 ```
 import pandas as pd
