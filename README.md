@@ -123,7 +123,7 @@ nano imestudio
 ```
 In the INSTALLATION_DIR= (line 10) you can add your path and save your changes. If you don't have the administrator privileges, add the directory in which executables are present to the *$PATH*, for example: 
 ```
-PATH=$PATH:/src 
+PATH=$PATH:/sources 
 ``` 
 
 You have to render install and the other executables executable by typing: 
