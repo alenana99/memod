@@ -267,3 +267,5 @@ From the obtained list we extract **NES** and **NES_pi** and use them as inputs 
 NES_values <- sapply(myres_ES, function(x) x$NES)
 NES_pi_values <- do.call(c, lapply(myres_ES, function(x) x$NES_pi))
 ```
+
+## Reference
