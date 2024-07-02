@@ -1,5 +1,5 @@
 # MEMOD!
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white) ![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white) ![Bash](https://img.shields.io/badge/bash-%234EAA25.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white) ![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white) ![Shell](https://img.shields.io/badge/bash-%234EAA25.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
 
 Hi :blush:
 
@@ -200,8 +200,8 @@ Let's divide by categories: Molecular Function, Cellular Component and Biologica
 BP <- subset(geneID_goID_merged, Ontology == "BP")
 MF <- subset(geneID_goID_merged, Ontology == "MF")
 CC <- subset(geneID_goID_merged, Ontology == "CC")
-myS_BP <- data.frame(BP$gene_ID)
-names(myS_BP) <- c("g")
+S_BP <- data.frame(BP$gene_ID)
+names(S_BP) <- c("g")
 ```
 Now, we can use the methylated positions from the MicrobeMod call_methylation output file (<LIBRARY_NAME>_methylated_sites.tsv) and the start and end positions of each gene from the GFF3 annotation file to count the number of methylations per gene.
 !! We can also first divide by methylation type and then count the number of methylations and, if we want, we can do the same for upstream positions (200bp upstream)
