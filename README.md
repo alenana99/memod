@@ -10,8 +10,8 @@ Memod! is a workflow that uses multiple tools for exploring and analyzing prokar
 - [STEP 1: Basecalling with dorado](https://github.com/alenana99/memod/blob/main/README.md#step-1-basecalling-w-dorado)
 - [STEP 2: Map reads to reference](https://github.com/alenana99/memod/blob/main/README.md#step-2-map-reads-to-reference)
 - [STEP 3: MicrobeMod](https://github.com/alenana99/memod/blob/main/README.md#microbemod)
-- [STEP 4: MeStudio](
-- [STEP 5: Circular plots on R](
+- [STEP 4: MeStudio](https://github.com/alenana99/memod/blob/main/README.md#mestudio)
+- [STEP 5: Circular plots on R](https://github.com/alenana99/memod/blob/main/README.md#circular-plots-on-R)
 - [STEP 6: Gene Set Enrichment Analysis](
 - [Reference](
 
