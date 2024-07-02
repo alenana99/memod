@@ -69,7 +69,7 @@ In order to map basecalled reads to the reference genome, including their methyl
 *map_to_ref* expects three arguments:
 
 1. <LIBRARY_NAME>.bam = BAM file obtained from Dorado basecalling
-2.  reference.genomes.fna = the reference in FASTA format
+2.   reference.genomes.fna = the reference in FASTA format
 3. <LIBRARY_NAME>.mapped.bam = output name
 
 The flag -T (taglist) MM,ML in samtools fastq specify a comma separated list of methylation tags to copy to the FASTQ header line; minimap2 turns off secondary alignments; then, samtools view and sort generate a sorted bam and finally, the last samtools line is needed to index the BAM file.
