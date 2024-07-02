@@ -6,7 +6,7 @@ Memod! is a workflow that uses multiple tools for exploring and analyzing prokar
 
 ## Table of Contents
 
-- [Dependencies](# Everything you need to install before you begin)
+- [Dependencies](#everything you need to install before you begin)
 - STEP 1:Basecalling with dorado
 - STEP 2: Map reads to reference
 - STEP 3: MicrobeMod
@@ -15,7 +15,7 @@ Memod! is a workflow that uses multiple tools for exploring and analyzing prokar
 - STEP 6: Gene Set Enrichment Analysis
 - Reference
 
-# Everything you need to install before you begin
+#Everything you need to install before you begin
 > - minimap2
 > - samtools
 > - R package ("GO.db")
