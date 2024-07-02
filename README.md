@@ -7,7 +7,7 @@ Memod! is a workflow that uses multiple tools for exploring and analyzing prokar
 ## Table of Contents
 
 - [Dependencies](#everything-you-need-to-install-before-you-begin)
-- [STEP 1: Basecalling with dorado](#STEP-1:-BASECALLING-W/-DORADO)
+- [STEP 1: Basecalling with dorado](https://github.com/alenana99/memod/blob/main/README.md#step-1-basecalling-w-dorado)
 - STEP 2: Map reads to reference
 - STEP 3: MicrobeMod
 - STEP 4: MeStudio
