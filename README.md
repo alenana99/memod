@@ -270,3 +270,4 @@ NES_pi_values <- do.call(c, lapply(myres_ES, function(x) x$NES_pi))
 
 ## Reference
 [*MeStudio* work](https://www.mdpi.com/1422-0067/24/1/159)
+[*MicrobeMod* work](https://www.biorxiv.org/content/10.1101/2023.11.13.566931v1)
