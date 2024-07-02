@@ -92,9 +92,9 @@ This pipeline just requires any genome assembly and creates many files, includin
 
 ## mestudio
 
-Before running ```mestudio```, make sure you have the files you need:
+Before running ```imestudio```, make sure you have the files you need:
  - **<LIBRARY_NAME>_anno.gff** = the product of the genomic annotation, executed via ```prokka``` annotation; the file is reported in GFF3 format.
- - **<LIBRARY_NAME>_genomic.fasta** = the reference_genome.fna file, that you need to rename in order to make it usable for ```mestudio```
+ - **<LIBRARY_NAME>_genomic.fasta** = the reference_genome.fna file, that you need to rename in order to make it usable for ```imestudio```
  - **motiflist.txt** = text file containing all the motifs you want to look for in the genome. You can use the list of motifs obtained from MicrobeMod *call_methylation* (in the output file <LIBRARY_NAME>_motif.tsv)
  - **<LIBRARY_NAME>_smart.gff** = GFF3 file with methylation positions. You can modify the MicrobeMod *call_methylation* output file <LIBRARY_NAME>.methylated_sites.tsv in order to obtain a GFF3 file with a similar format to that of the annotation file. 
  
@@ -117,7 +117,7 @@ ms_df = pd.DataFrame({
 })
 ```
 
-Manually add the path of the folder in which you want to locate ```mestudio``` by tiping: 
+Manually add the path of the folder in which you want to locate ```imestudio``` by tiping: 
 ```
 nano imestudio
 ```
