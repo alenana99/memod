@@ -169,6 +169,23 @@ circos.genomicRainfall(bed_list, pch = 16, cex = 0.4, col = colors)
 ```
 ## Gene Set Enrichment Analysis
 
+```
+GSEA/
+├── data/
+│    ├── GO.out
+│    ├──  pos_ID
+│    ├──  pos_mod_strand_motif
+│    ├── basecalling2_methylated_sites.tsv
+│    ├── GO.ids
+├── scripts/
+│    ├── fetch_go_details.R
+│    ├── count_meth.py
+│    ├── process_go.R
+│    ├── create_gene_sets.R
+│    ├── run_GSEA.R
+└──  README.md
+```
+
 First, to do a GSEA, we need to get: 
 - A gene list L = {g1,...gN} ranked according to the number of methylation (correlation r(g1)=r1)
 - A gene set S (e.g. a pathway or a GO category)
