@@ -173,8 +173,8 @@ circos.genomicRainfall(bed_list, pch = 16, cex = 0.4, col = colors)
 GSEA/
 ├── data/
 │    ├── GO.out
-│    ├──  pos_ID
-│    ├──  pos_mod_strand_motif
+│    ├── pos_ID
+│    ├── pos_mod_strand_motif.tsv
 │    ├── basecalling2_methylated_sites.tsv
 │    ├── GO.ids
 ├── scripts/
