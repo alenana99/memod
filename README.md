@@ -80,13 +80,13 @@ See [MicrobeMod](https://github.com/cultivarium/MicrobeMod) github repository fo
 
 First, run MicrobeMod *call_methylation*
 ```
-MicrobeMod call_methylation -b LIBRARY_NAME.mapped.bam -r reference_genomes.fna -t 10
+MicrobeMod call_methylation -b <LIBRARY_NAME>.mapped.bam -r reference_genomes.fna -t 10
 ```
 I used the default parameters, which are robust in most cases, but it is possible to change them. You can re-running with different parameters to see which ones fit best with your data. Many files are created, of which the most important are the two tab-separated tables, one describing information for all methylated sites and one describing output for methylated motifs. these will be used later to continue the analysis with ```mestudio```.
 
 Next, you can run MicrobeMod *annotate_rm*
 ```
-MicrobeMod annotate_rm -f genome_reference.fasta -o genome_reference -t 10
+MicrobeMod annotate_rm -f reference_genome.fna -o <reference_genome> -t 10
 ```
 This pipeline just requires any genome assembly and creates many files, including a tabular output describing RM genes: each line describes an individual gene; genes are grouped in an "operon" (complete RM system) or a singleton (MTase or RE without a pair).
 
@@ -284,7 +284,6 @@ From the obtained list we extract **NES** and **NES_pi** and use them as inputs 
 NES_values <- sapply(myres_ES, function(x) x$NES)
 NES_pi_values <- do.call(c, lapply(myres_ES, function(x) x$NES_pi))
 ```
-
 ## Reference
 [*MeStudio* work](https://www.mdpi.com/1422-0067/24/1/159)
 
