@@ -17,6 +17,13 @@ MF <- subset(geneID_goID_merged, Ontology == "MF")
 CC <- subset(geneID_goID_merged, Ontology == "CC")
 
 # Save the results
-write.csv(BP, file = "data/BP.csv", row.names = FALSE)
-write.csv(MF, file = "data/MF.csv", row.names = FALSE)
-write.csv(CC, file = "data/CC.csv", row.names = FALSE)
+write.table(BP, file = "data/BP", row.names = FALSE)
+write.table(MF, file = "data/MF", row.names = FALSE)
+write.table(CC, file = "data/CC", row.names = FALSE)
+
+# Create S for each category
+S_BP <- data.frame(BP$gene_ID)
+names(S_BP) <- c("g")
+
+# Save S
+write.table(S_BP, file = "data/S_BP", row.names = FALSE)
