@@ -1,0 +1,5 @@
+	index	Motif	Motif_raw	Methylation_type	Genome_sites	Methylated_sites	Methylation_coverage	Average_Percent_Methylation_per_site	Methylated_position_1	Methylated_position_1_percent	Methylated_position_2	Methylated_position_2_percent
+0	0	GATC	1-NNNNYGATCRNNNN	6mA	28964	27912	0.964	0.79	3	50.0	2	50.0
+1	1	No Motif Assigned	NA	6mA	NA	12433	NA	0.74	NA	NA	NA	NA
+2	0	CGSCG	1-NHHWDCGSCGHWDDN	5mC	8258	8122	0.984	0.81	2	48.969	4	48.969
+3	1	No Motif Assigned	NA	5mC	NA	11	NA	0.71	NA	NA	NA	NA
