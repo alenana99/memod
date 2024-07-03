@@ -22,3 +22,14 @@ fetch_go_details <- function(go_ids) {
   go_info_df <- do.call(rbind, lapply(go_info_list, function(x) as.data.frame(x, stringsAsFactors = FALSE)))
   return(go_info_df)
 }
+
+
+# Load GO IDs
+GO_ids <- read.table("data/GO_ids", header = FALSE)
+GO_ids <- as.vector(as.matrix(GO_ids))
+
+# Obtain details on GO terms
+GO_description <- fetch_go_details(GO_ids)
+
+# Save the result
+write.csv(GO_description, file = "data/GO_description.csv", row.names = FALSE)
