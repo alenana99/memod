@@ -1,4 +1,30 @@
+#!/usr/bin/env Rscript
+
 # create_S.R
+# Load libraries
+if (!require("optparse")) {
+  install.packages("optparse", repos='http://cran.us.r-project.org')
+  library(optparse)
+}
+
+option_list = list(
+  make_option(c("-p", "--pmsm_count_file"), type="character", default=NULL, 
+              help="Count methylation per gene", metavar="character"),
+  make_option(c("-S", "--S_file"), type="character", default=NULL, 
+              help="File BP", metavar="character"),
+  make_option(c("-o", "--output_file"), type="character", default="list_S_BP.rds", 
+              help="Output file [default= %default]", metavar="character")
+)
+
+opt_parser = OptionParser(option_list=option_list)
+opt = parse_args(opt_parser)
+
+# Verifica che tutti i file di input siano specificati
+if (is.null(opt$pmsm_count_file) | is.null(opt$bp_file)) {
+  print_help(opt_parser)
+  stop("Both input files must be specified", call.=FALSE)
+}
+
 
 pmsm_count_df <- read.table("data/pmsm_count_df", header=TRUE)
 BP <- read.table("data/BP")
@@ -20,4 +46,4 @@ for (go_id in unique_GO_BP) {
 }
 
 # Save list_S
-saveRDS(list_S, file = "data/list_S_BP")
+saveRDS(list_S, file = "data/list_S_BP.rds")
