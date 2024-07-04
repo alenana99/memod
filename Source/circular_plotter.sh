@@ -18,12 +18,15 @@ do
     # Estrai il nome del motivo dalla directory
     motif_name=$(basename "$motif_dir")
 
+    # Cambia la directory alla cartella "msa" all'interno del motivo
+    cd "$motif_dir/msa" || { echo "Error: cannot change directory to $motif_dir/msa"; exit 1; }
+
     # File BED per il motivo corrente
     bed_files=(
-        "$motif_dir/${motif_name}_CDS.bed"
-        "$motif_dir/${motif_name}_nCDS.bed"
-        "$motif_dir/${motif_name}_intergenic.bed"
-        "$motif_dir/${motif_name}_upstream.bed"
+        "${motif_name}_CDS.bed"
+        "${motif_name}_nCDS.bed"
+        "${motif_name}_intergenic.bed"
+        "${motif_name}_upstream.bed"
     )
 
     # Creazione dello script R per i plot circolari
@@ -56,4 +59,7 @@ circos.clear()
 EOF
 
     echo "Plot circolare per il motivo $motif_name creato: $output_dir/$motif_name\_circos_plot.pdf"
+
+    # Torna alla directory di partenza dopo aver completato il lavoro su questo motivo
+    cd - >/dev/null || exit
 done
