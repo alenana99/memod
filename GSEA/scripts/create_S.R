@@ -26,8 +26,8 @@ if (is.null(opt$pmsm_count_file) | is.null(opt$bp_file)) {
 }
 
 
-pmsm_count_df <- read.table("data/pmsm_count_df", header=TRUE)
-BP <- read.table("data/BP")
+pmsm_count_df <- read.table(opt$pmsm_count_file, header=TRUE)
+BP <- read.table(opt$bp_file, header=TRUE)
 S_BP$i <- match(S_BP$g, pmsm_count_df$g)
 S_BP_GO <- data.frame(BP$gene_ID, BP$GO_ID)
 names(S_BP_GO) <- c("g", "GO_ID")
@@ -46,4 +46,4 @@ for (go_id in unique_GO_BP) {
 }
 
 # Save list_S
-saveRDS(list_S, file = "data/list_S_BP.rds")
+saveRDS(list_S, file = opt$output_file)
