@@ -13,10 +13,10 @@ my_bed4 <- as.data.frame(read.table(args[4], header = TRUE, sep = "\t", stringsA
 circos.initializeWithIdeogram(my_bed4)
 
 # Specifica della densit▒|  di metilazione per ciascun BED
-circos.genomicDensity(my_bed, col = c("red"), track.height = 0.1)
-circos.genomicDensity(my_bed2, col = c("blue"), track.height = 0.1)
-circos.genomicDensity(my_bed3, col = c("purple"), track.height = 0.1)
-circos.genomicDensity(my_bed4, col = c("orange"), track.height = 0.1)
+circos.genomicDensity(my_bed, col = c("#7fc97f"), track.height = 0.1)
+circos.genomicDensity(my_bed2, col = c("#beaed4"), track.height = 0.1)
+circos.genomicDensity(my_bed3, col = c("#fdc086"), track.height = 0.1)
+circos.genomicDensity(my_bed4, col = c("#ffff99"), track.height = 0.1)
 
 # Se vuoi abbinare le differenze BED
 #colors <- c('#7fc97f','#beaed4','#fdc086','#ffff99')
