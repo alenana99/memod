@@ -1,9 +1,0 @@
-GSEA_fdr <- function(x,NES,NES_pi)
-  # x is the NES value for a given term
-  # NES is the distribution of NES for all terms
-  # NES_pi is the distribution of NES for all permutation of all terms
-  NES_pi = NES_pi[sign(NES_pi) == sign(x)]
-  NES <- NES[sign(NES) == sign(x)]
-  FDR <- (sum(abs(x) >= abs(NES_pi))/(length(NES_pi)))/
-          (sum(abs(x) >= abs(NES))/(length(NES)))
-  return(FDR)
