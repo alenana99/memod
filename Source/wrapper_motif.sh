@@ -4,25 +4,25 @@
 INSTALLATION_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 circ="$INSTALLATION_DIR/circular_plotter.R"
 
-# Controlla il numero di argomenti passati
+# Check the number of arguments passed
 if [ $# -lt 3 ]; then
     echo "Usage: $0 <motif_dir1> <motif_dir2> ... <motif_dirN> <output_dir>"
     exit 1
 fi
 
-# Percorsi delle directory dei motivi (i primi argomenti)
+# Motif directory paths (the first arguments)
 motif_dirs=("${@:1:$#-1}")
 
-# Directory di output (l'ultimo argomento)
+# Output Directory (the last argument)
 output_dir="${@: -1}"
 
-# Ciclo su ogni directory dei motivi
+# Loop through each pattern directory
 for motif_dir in "${motif_dirs[@]}"
 do
-    # Estrai il nome del motivo dalla directory
+    # Extract the motif name from the directory
     motif_name=$(basename "$motif_dir")
 
-    # File BED per il motivo corrente
+    # BED file for the current motif
     bed_files=(
         "${motif_dir}/msa/${motif_name}_CDS.bed"
         "${motif_dir}/msa/${motif_name}_nCDS.bed"
@@ -30,7 +30,7 @@ do
         "${motif_dir}/msa/${motif_name}_US.bed"
     )
 
-  # Chiamata allo script R usando Rscript
+  # Calling circular_plotter.R script
       Rscript "$circ" "${bed_files[0]}" "${bed_files[1]}" "${bed_files[2]}" "${bed_files[3]}"
 
 done
