@@ -1,8 +1,29 @@
 # run_gsea.R
 
+#!/usr/bin/env Rscript
+
+# Import library
+library(optparse)
+
+# Define command line options
+option_list <- list(
+  make_option(c("-p", "--pmsm_count_file"), type = "character", default = "pmsm_count_df",
+              help = "Path to the pmsm count file [default: %default]"),
+  make_option(c("-S", "--list_S"), type = "character", default = "list_S.rds",
+              help = "Path to the list S file [default: %default]"),
+  make_option(c("-o", "--output"), type = "character", default = "FDR_values",
+              help = "Path to the output file [default: %default]")
+)
+
+# Parse command line options
+opt_parser <- OptionParser(option_list = option_list)
+opt <- parse_args(opt_parser)
+
+# Load pmsm count data
+pmsm_count_df <- read.delim(opt$pmsm_count_file, header = TRUE)
+
 #Load file
-list_S <- readRDS("data/list_S_BP")
-pmsm_count_df <- read.table("data/pmsm_count_df")
+list_S <- readRDS(opt$list_S)
 
 #ES_significance2 function
 ES_significance2 <- function(S,L,nbootstrap=1000){
@@ -84,4 +105,4 @@ NES_pi_values <- do.call(c, lapply(res_ES, function(x) x$NES_pi))
 FDR_values <- FDR_wrapper(NES_values, NES_pi_values)
 
 # Save the result
-write.table(FDR_values, file = "data/FDR_values", row.names = FALSE)                                   
+write.table(FDR_values, file = opt$output)                                   
