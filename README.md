@@ -101,7 +101,7 @@ Before running ```imestudio```, make sure you have the files you need:
  - **motiflist.txt** = text file containing all the motifs you want to look for in the genome. You can use the list of motifs obtained from MicrobeMod *call_methylation* (in the output file <LIBRARY_NAME>_motif.tsv)
  - **<LIBRARY_NAME>_smart.gff** = GFF3 file with methylation positions. You can modify the MicrobeMod *call_methylation* output file <LIBRARY_NAME>.methylated_sites.tsv in order to obtain a GFF3 file with a similar format to that of the annotation file. 
  
- An example of the format is reported below:
+ An example of how to obtain the format is provided below:
 
 ```
 import pandas as pd
