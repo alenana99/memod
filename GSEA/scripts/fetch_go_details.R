@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 #import library
 library(GO.db)
 library(optparse)
