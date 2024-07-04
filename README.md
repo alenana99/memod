@@ -147,6 +147,14 @@ You can just type:
 ```
 bash wrapper_motif.sh <PATH/TO/MOTIF1> <PATH/TO/MOTIF2> <OUTPUT_DIRECTORY>
 ```
+If you want, you can also match the BED differences: 
+```
+circos.initializeWithIdeogram(my_bed4)
+colors <- c('#7fc97f','#beaed4','#fdc086','#ffff99')
+bed_list <- list(my_bed, my_bed2, my_bed3, my_bed4)
+circos.genomicRainfall(bed_list, pch = 16, cex = 0.4, col = colors)
+```
+Feel free to change colors for the plot :wink:
 
 ## Gene Set Enrichment Analysis
 
