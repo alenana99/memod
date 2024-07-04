@@ -1,5 +1,8 @@
 #!/bin/bash
 
+INSTALLATION_DIR=/home/alessiam/memod/Source
+circ="$INSTALLATION_DIR/circular_plotter.R"
+
 # Controlla il numero di argomenti passati
 if [ $# -lt 3 ]; then
     echo "Usage: $0 <motif_dir1> <motif_dir2> ... <motif_dirN> <output_dir>"
@@ -27,6 +30,6 @@ do
     )
 
   # Chiamata allo script R usando Rscript
-      Rscript "/home/alessiam/memod/Source/circular_plotter.R" "${bed_files[0]}" "${bed_files[1]}" "${bed_files[2]}" "${bed_files[3]}"
+      Rscript "$circ" "${bed_files[0]}" "${bed_files[1]}" "${bed_files[2]}" "${bed_files[3]}"
 
 done
