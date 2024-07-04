@@ -143,37 +143,11 @@ imestudio -f <LIBRARY_NAME_genomic.fasta> -anno <LIBRARY_NAME_anno.gff> -smart <
 
 For each searched motif, MeStudio generate a stdout log. ```mscore``` and ```msa``` are the directories created from ```ms_coreR``` and ```ms_analyzR```. Inside these folders you can find the tabular files as GFFs and BEDs produced by MeStudio. We have implemented the script *wrapper_motif.sh*, which internally calls the script *circular_plotter.R* to automatically generate circular plots for all searched motifs.
 
-
-
-Import library
+You can just type: 
 ```
-library(circlize)
+bash wrapper_motif.sh <PATH/TO/MOTIF1> <PATH/TO/MOTIF2> <OUTPUT_DIRECTORY>
 ```
 
-Read your bed files (imestudio output files)
-```
-my_bed <- as.data.frame(read.table("[MOTIF]_CDS.bed",header = TRUE, sep="\t",stringsAsFactors=FALSE, quote=""))
-my_bed2 <- as.data.frame(read.table("[MOTIF]_nCDS.bed",header = TRUE, sep="\t",stringsAsFactors=FALSE, quote=""))
-my_bed3 <- as.data.frame(read.table("[MOTIF]_intergenic.bed",header = TRUE, sep="\t",stringsAsFactors=FALSE, quote=""))
-my_bed4 <- as.data.frame(read.table("[MOTIF]_upstream.bed",header = TRUE, sep="\t",stringsAsFactors=FALSE, quote=""))
-```
-Init plot:
-```
-circos.initializeWithIdeogram(my_bed4)
-```
-Specify each bed's methylation-density: 
-```
-circos.genomicDensity(my_bed, col = c("red"), track.height = 0.1)
-circos.genomicDensity(my_bed2, col = c("blue"), track.height = 0.1)
-circos.genomicDensity(my_bed3, col = c("purple"), track.height = 0.1)
-circos.genomicDensity(my_bed4, col = c("orange"), track.height = 0.1)
-```
-If you want to match the bed differences:
-```
-colors <- c('#7fc97f','#beaed4','#fdc086','#ffff99')
-bed_list = list(my_bed, my_bed2, my_bed3, my_bed4)
-circos.genomicRainfall(bed_list, pch = 16, cex = 0.4, col = colors)
-```
 ## Gene Set Enrichment Analysis
 
 ```
