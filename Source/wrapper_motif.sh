@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#INSTALLATION_DIR=/home/alessiam/memod/Source
-INSTALLATION_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+INSTALLATION_DIR=/home/alessiam/memod/Source
+#INSTALLATION_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 circ="$INSTALLATION_DIR/circular_plotter.R"
 
 # Check the number of arguments passed
