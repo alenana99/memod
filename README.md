@@ -141,6 +141,10 @@ imestudio -f <LIBRARY_NAME_genomic.fasta> -anno <LIBRARY_NAME_anno.gff> -smart <
 
 ## Circular plots on R
 
+For each searched motif, MeStudio generate a stdout log. ```mscore``` and ```msa``` are the directories created from ```ms_coreR``` and ```ms_analyzR```. Inside these folders you can find the tabular files as GFFs and BEDs produced by MeStudio. We have implemented the script *wrapper_motif.sh*, which internally calls the script *circular_plotter.R* to automatically generate circular plots for all searched motifs.
+
+
+
 Import library
 ```
 library(circlize)
