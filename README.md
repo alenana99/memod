@@ -91,7 +91,9 @@ MicrobeMod annotate_rm -f reference_genome.fna -o <reference_genome> -t 10
 ```
 This pipeline just requires any genome assembly and creates many files, including a tabular output describing RM genes: each line describes an individual gene; genes are grouped in an "operon" (complete RM system) or a singleton (MTase or RE without a pair).
 
-## mestudio
+## MeStudio
+
+MeStudio is a tool that enables the analysis and integration of genome-wide methylation profiles with genomic features. See the [MeStudio](https://github.com/combogenomics/MeStudio) github repository for more informations. We made just some adjustments to ensure compatibility with data from nanopore sequencing: we have modified the source codes for *ms_analyzR* and *imestudio*, while all the others remain unchanged. 
 
 Before running ```imestudio```, make sure you have the files you need:
  - **<LIBRARY_NAME>_anno.gff** = the product of the genomic annotation, executed via ```prokka``` annotation; the file is reported in GFF3 format.
