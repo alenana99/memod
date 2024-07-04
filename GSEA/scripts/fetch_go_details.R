@@ -1,5 +1,6 @@
 #import library
 library(GO.db)
+library(optparse)
 
 # Definition of the function to retrieve GO IDs information
 fetch_go_details <- function(go_ids) {
