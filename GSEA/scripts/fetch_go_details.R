@@ -2,7 +2,23 @@
 
 #import library
 library(GO.db)
-library(optparse)
+
+if (!require("optparse")) {
+  install.packages("optparse", repos='http://cran.us.r-project.org')
+  library(optparse)
+}
+
+# Define command line options
+option_list <- list(
+  make_option(c("-i", "--input"), type = "character", default = "data/GO_ids",
+              help = "Path to the input file containing GO IDs [default: %default]"),
+  make_option(c("-o", "--output"), type = "character", default = "data/GO_description.csv",
+              help = "Path to the output CSV file [default: %default]")
+)
+
+# Parse command line options
+opt_parser <- OptionParser(option_list = option_list)
+opt <- parse_args(opt_parser)
 
 # Definition of the function to retrieve GO IDs information
 fetch_go_details <- function(go_ids) {
@@ -27,12 +43,12 @@ fetch_go_details <- function(go_ids) {
 }
 
 
-# Load GO IDs
-GO_ids <- read.table("data/GO_ids", header = FALSE)
+# Load GO IDs from input file
+GO_ids <- read.table(opt$input, header = FALSE)
 GO_ids <- as.vector(as.matrix(GO_ids))
 
 # Obtain details on GO terms
 GO_description <- fetch_go_details(GO_ids)
 
-# Save the result
-write.csv(GO_description, file = "data/GO_description.csv", row.names = FALSE)
+# Save the result to output file
+write.csv(GO_description, file = opt$output, row.names = FALSE)
