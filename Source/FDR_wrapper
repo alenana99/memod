@@ -1,4 +1,0 @@
-FDR_wrapper <- function(NES,NES_pi){
-  FDRs <- sapply(NES,function(x){GSEA_fdr(x,NES,NES_pi)})
-  return(FDRs)
-}
