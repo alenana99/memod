@@ -156,6 +156,8 @@ circos.genomicRainfall(bed_list, pch = 16, cex = 0.4, col = colors)
 ```
 Feel free to change colors for the plot :wink:
 
+[](https://github.com/alenana99/memod/blob/main/plots/circularPlot_GATC_contig123.png)
+
 ## Gene Set Enrichment Analysis
 
 :warning: ## This section is still a work in progress :construction:
@@ -204,9 +206,7 @@ Now, we can use the methylated positions from the MicrobeMod *call_methylation* 
 Sort by number of methylations:
 ```
 ```
-```
 
-```
 We can create a list containing $g (gene_ID) and $i ( match S\$g, L$g)  for each GO term of each category (now we use BP for example):
 ```
 
@@ -220,7 +220,7 @@ The function return a list containing for each set:
 - **NES_pi**: the normalized bootstrap values
 
 ```
-res_ES <- lapply(list_S, function(x) ES_significance2(x,pmsm_count_df))
+res_ES <- lapply(list_S, function(x) ES_significance2(x,<L>))
 ```
 
 From the obtained list we extract **NES** and **NES_pi** and use them as inputs for *FDR_wrapper* function to compute the False Discovery Rates (FDRs). The FDR is the estimated probability that a set with a given NES rapresents a false positive finding. 
