@@ -190,10 +190,10 @@ First, to do a GSEA, we need to get:
 - A gene set S (e.g. a pathway or a GO category)
 
 We want to associate a GO term with each gene; to do this, we can use [PANNZER2](http://ekhidna2.biocenter.helsinki.fi/sanspanz/), an automatic service for functional annotation of prokaryotic and eukaryotic proteins of unknown function. We upload the protein file obtained from prokka annotation to PANNZER. In the parameters filters we can select Bacteria to exclude unlikely GO terms. PANNZER2 return us a file <GO.out> with all the GO terms associated with a certain gene of our gene universe, that is, of all the genes that we take into account.
-Then, we can use the *fetch_go_details.R* script in order to obtain a dataframe with ontology, name and definition for each GO term
+Then, we can use the *fetch_go_details.R* script in order to obtain a dataframe with ontology, name and definition for each GO term:
 
-Let's merge each of our gene ids with its GO informations
 ```
+fetch_go_details.R -i <GO.out> -o <GO.description.csv
 ```
 Let's divide by categories: Molecular Function, Cellular Component and Biological Process and then construct an S for each GO of each category
 ```
