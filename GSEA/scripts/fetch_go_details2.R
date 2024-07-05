@@ -6,8 +6,8 @@ library(optparse)
 
 # Define command line options
 option_list <- list(
-  make_option(c("-i", "--input"), type = "character", default = "GO_ids",
-              help = "Path to the input file containing GO IDs [default: %default]"),
+  make_option(c("-i", "--input"), type = "character", default = "GO.out",
+              help = "Path to the input file containing GO terms [default: %default]"),
   make_option(c("-o", "--output"), type = "character", default = "GO_description.csv",
               help = "Path to the output CSV file [default: %default]")
 )
@@ -34,8 +34,9 @@ fetch_go_details <- function(go_ids) {
 }
 
 # Load GO IDs
-GO_ids <- read.table(opt$input, header = FALSE)
-GO_ids <- as.vector(as.matrix(GO_ids))
+GO.out <- read.table(opt$input, header = FALSE)
+# Extract GO IDs from the third column
+GO_ids <- as.vector(GO.out[, 3])
 
 # Obtain details on GO terms
 GO_description <- fetch_go_details(GO_ids)
