@@ -7,8 +7,8 @@ library(optparse)
 option_list <- list(
   make_option(c("-g", "--go_description"), type = "character", default = "GO_description.csv",
               help = "Path to the input file containing GO description [default: %default]"),
-  make_option(c("-a", "--associations"), type = "character", default = "geneID_goID",
-              help = "Path to the input file containing gene-GO associations [default: %default]"),
+  make_option(c("-i", "--input"), type = "character", default = "GO.out",
+              help = "Path to the input file containing GO terms [default: %default]"),
   make_option(c("-o", "--output"), type = "character", default = "data",
               help = "Directory for output files [default: %default]")
 )
@@ -21,7 +21,8 @@ opt <- parse_args(opt_parser)
 GO_description <- read.csv(opt$go_description)
 
 # Load gene-GO associations
-geneID_goID <- read.csv(opt$associations, sep="\t")
+GO.out <- read.table(opt$input, header = FALSE)
+geneID_goID <- GO.out[, c(1, 3)]
 names(geneID_goID) <- c("gene_ID", "GO_ID")
 
 # Merge GO information with genes
