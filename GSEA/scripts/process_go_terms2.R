@@ -9,7 +9,7 @@ option_list <- list(
               help = "Path to the input file containing GO description [default: %default]"),
   make_option(c("-i", "--input"), type = "character", default = "GO.out",
               help = "Path to the input file containing GO terms [default: %default]"),
-  make_option(c("-o", "--output"), type = "character", default = "data",
+  make_option(c("-o", "--output"), type = "character", default = "S",
               help = "Directory for output files [default: %default]")
 )
 
