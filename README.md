@@ -32,7 +32,7 @@ Memod! is a workflow that uses multiple tools for exploring and analyzing prokar
  > - HMMER
  > - Modkit v0.2.2
  > - STREME
-- **mestudio**
+- **MeStudio**
  > - mestudio
  > - pandas
  > - numpy
