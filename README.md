@@ -158,6 +158,9 @@ Feel free to change colors for the plot :wink:
 
 ## Gene Set Enrichment Analysis
 
+:warning: ## This section is still a work in progress :construction:
+We are currently working on this part of the project. Check back soon for updates.
+
 ```
 GSEA/
 ├── data/
@@ -181,80 +184,32 @@ First, to do a GSEA, we need to get:
 
 We want to associate a GO term with each gene; to do this, we can use [PANNZER2](http://ekhidna2.biocenter.helsinki.fi/sanspanz/), an automatic service for functional annotation of prokaryotic and eukaryotic proteins of unknown function. We upload the protein file obtained from prokka annotation to PANNZER. In the parameters filters we can select Bacteria to exclude unlikely GO terms. PANNZER2 return us a file <GO.out> with all the GO terms associated with a certain gene of our gene universe, that is, of all the genes that we take into account. 
 
-To get a list of all GO ids:
+Get a list of all GO ids:
 ```
-cut -f3 GO.out > GO_ids
 ```
 Now, we can use *fetch_go_details* function of R in order to obtain a dataframe with ontology, name and definition for each GO term: 
 ```
-library(GO.db)
-GO_ids <- read.table("GO_ids")
-GO_ids <- as.vector(as.matrix(GO_ids)
-GO_description <- fetch_go_details(GO_ids)
 ```
 
 Let's merge each of our gene ids with its GO informations: 
 ```
-cut -f1,3 GO.out > geneID_goID
-geneID_goID <- read.csv("~/myproggg/test/geneID_goID", sep="")
-names(geneID_goID) <- c("gene_ID", "GO_ID")
-geneID_goID_merged <- merge(geneID_goID, GO_description, by = "GO_ID")
-geneID_goID_merged <- unique(geneID_goID_merged)
 ```
 Let's divide by categories: Molecular Function, Cellular Component and Biological Process and then construct an S for each GO of each category:
 ```
-BP <- subset(geneID_goID_merged, Ontology == "BP")
-MF <- subset(geneID_goID_merged, Ontology == "MF")
-CC <- subset(geneID_goID_merged, Ontology == "CC")
-S_BP <- data.frame(BP$gene_ID)
-names(S_BP) <- c("g")
 ```
 Now, we can use the methylated positions from the MicrobeMod *call_methylation* output file (<LIBRARY_NAME>_methylated_sites.tsv) and the start and end positions of each gene from the GFF3 annotation file to count the number of methylations per gene.
 !! We can also first divide by methylation type and then count the number of methylations and, if we want, we can do the same for upstream positions (200bp upstream)
 ```
-import pandas as pd
-path_pos_ID = "/pos_ID"
-pos_ID_df = pd.read.table(path_pos_ID, header = None)
-pos_ID_df.columns = ['pos_in', 'pos_end', 'ID_gene']
-path_pmsm = "/pos_mod_strand_motif.tsv"
-pmsm_df = pd.read.table(path_pmsm)
-
-def find_gene(position, pos_ID_df):
-    for _, row in pos_ID_df.iterrows():
-        if row['pos_in'] <= position <= row['pos_end']:
-            return row['ID_gene']
-    return None
-
-pmsm_df['ID_gene'] = pmsm_df['Position'].apply(lambda pos: find_gene(pos,pos_ID_df))
-pmsm_df['ID_gene'] = pmsm_df['ID_gene'].str.replace('_gene','')
-
-pmsm_count_df = pmsm_df.groupby(['ID_gene'])['ID_gene'].count()
 ```
 Sort by number of methylations:
 ```
-pmsm_count_df = pmsm_count_df.sort_values(ascending=False)
-pmsm_count_df = pmsm_count_df.reset_index(name='n_meth')
-pmsm_count_df['ID_gene'] = pmsm_count_df['ID_gene'].str.replace('ID=', '')
 ```
 ```
-pmsm_count_df <- read.table("/pmsm_count_df", header=TRUE)
-S_BP$i <- match(S_BP$g, pmsm_count_df$g)
-S_BP_GO <- data.frame(BP$gene_ID, BP$GO_ID)
-names(S_BP_GO) <- c("g", "GO_ID")
-S_BP_GO$i <- match(S_BP_GO$g, pmsm_count_df$g)
-S_BP_GO <- merge(S_BP_GO, pmsm_count_df, by = "g")
-unique_GO_BP <- unique(S_BP_GO$GO_ID)
+
 ```
 We can create a list containing $g (gene_ID) and $i ( match S\$g, L$g)  for each GO term of each category (now we use BP for example):
 ```
-list_S <- list()
-for (go_id in myunique_GO_BP) {
-  ss <- myS_BP_GO[myS_BP_GO$GO_ID == go_id, c("g", "i", "r")]
-  ss <- ss[order(ss$r, decreasing = TRUE), ]
-  ss <- ss[order(ss$i), ]
-  ss <- ss[, c("g", "i")]
-  list_S[[paste0("", gsub(":", "_", go_id))]] <- ss
-}
+
 ```
 Finally, we are ready for GSEA!
 First, with *ES_significance2* function we calculate an Enrichment Score (ES, with *ES_wrapper_fast*) that reflect the degree to which a set S is overrapresented at the top or bottom of the entire ranked list L. The score is calculated by waling down the list L, increasing a running-sum statistic (Phit) when we encounter a gene in S and decreasing it when we encounter genes not in S (on the contrary, Pmiss increases). Then it estimates the statistical significance (P value) of the ES by using a permutation test (bootstrap = 1000): at each iteration, we randomly sample dim(x)[1] rows from L and calculate the ES for each sample and store the result in *ES_pi*. After calculating significance, we adjust the estimated significance level to account for multiple hypothesis testing. We first normalize the ES for each gene set to account for the size of the set, yielding a normalized enrichment score (NES).
