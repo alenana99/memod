@@ -189,26 +189,20 @@ First, to do a GSEA, we need to get:
 - A gene list L = {g1,...gN} ranked according to the number of methylation (correlation r(g1)=r1)
 - A gene set S (e.g. a pathway or a GO category)
 
-We want to associate a GO term with each gene; to do this, we can use [PANNZER2](http://ekhidna2.biocenter.helsinki.fi/sanspanz/), an automatic service for functional annotation of prokaryotic and eukaryotic proteins of unknown function. We upload the protein file obtained from prokka annotation to PANNZER. In the parameters filters we can select Bacteria to exclude unlikely GO terms. PANNZER2 return us a file <GO.out> with all the GO terms associated with a certain gene of our gene universe, that is, of all the genes that we take into account. 
+We want to associate a GO term with each gene; to do this, we can use [PANNZER2](http://ekhidna2.biocenter.helsinki.fi/sanspanz/), an automatic service for functional annotation of prokaryotic and eukaryotic proteins of unknown function. We upload the protein file obtained from prokka annotation to PANNZER. In the parameters filters we can select Bacteria to exclude unlikely GO terms. PANNZER2 return us a file <GO.out> with all the GO terms associated with a certain gene of our gene universe, that is, of all the genes that we take into account.
+Then, we can use the *fetch_go_details.R* script in order to obtain a dataframe with ontology, name and definition for each GO term
 
-Get a list of all GO ids:
+Let's merge each of our gene ids with its GO informations
 ```
 ```
-Now, we can use *fetch_go_details* function of R in order to obtain a dataframe with ontology, name and definition for each GO term: 
-```
-```
-
-Let's merge each of our gene ids with its GO informations: 
-```
-```
-Let's divide by categories: Molecular Function, Cellular Component and Biological Process and then construct an S for each GO of each category:
+Let's divide by categories: Molecular Function, Cellular Component and Biological Process and then construct an S for each GO of each category
 ```
 ```
 Now, we can use the methylated positions from the MicrobeMod *call_methylation* output file (<LIBRARY_NAME>_methylated_sites.tsv) and the start and end positions of each gene from the GFF3 annotation file to count the number of methylations per gene.
 !! We can also first divide by methylation type and then count the number of methylations and, if we want, we can do the same for upstream positions (200bp upstream)
 ```
 ```
-Sort by number of methylations:
+Sort by number of methylations
 ```
 ```
 
