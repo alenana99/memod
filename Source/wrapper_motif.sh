@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# INSTALLATION_DIR holds the path to the scripts, make sure you add the installation directory to your PATH
+
 INSTALLATION_DIR=/home/alessiam/memod/Source
 #INSTALLATION_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 circ="$INSTALLATION_DIR/circular_plotter.R"
