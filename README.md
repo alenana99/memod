@@ -156,11 +156,13 @@ circos.genomicRainfall(bed_list, pch = 16, cex = 0.4, col = colors)
 ```
 Feel free to change colors for the plot :wink:
 
-[](https://github.com/alenana99/memod/blob/main/plots/circularPlot_GATC_contig123.png)
+![Our plot](https://github.com/alenana99/memod/blob/main/plots/circularPlot_GATC_contig123.png)
 
 ## Gene Set Enrichment Analysis
 
-:warning: ## This section is still a work in progress :construction:
+:warning: :warning: :warning:
+## This section is still a work in progress 
+:construction: :construction: :construction:
 We are currently working on this part of the project. Check back soon for updates.
 
 ```
