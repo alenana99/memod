@@ -16,7 +16,6 @@ msfasta="$INSTALLATION_DIR/msfasta"
 msmatch="$INSTALLATION_DIR/msmatch"
 msx="$INSTALLATION_DIR/msx"
 analyzer="$INSTALLATION_DIR/ms_analyzR.py"
-circ="$INSTALLATION_DIR/ms_circ.R"
 
 POSITIONAL_ARGS=()
 print_help () {
