@@ -22,6 +22,7 @@ Memod! is a workflow that uses multiple tools for exploring and analyzing prokar
 > - samtools
 > - R package ("GO.db")
 > - R package ("optparse")
+> - R package ("AnnotationDbi")
 - **Dorado**
 > - dorado
 	
