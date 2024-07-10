@@ -48,7 +48,7 @@ process_go_data <- function(anno_path, L_path, output_path) {
   }
   
   # Stampa i data frame per controllo
-  print(S_ontology)
+  #print(S_ontology)
   
   S_GO <- lapply(S_ontology, function(df) {
     df$i <- match(df$g, L$g)
@@ -57,7 +57,7 @@ process_go_data <- function(anno_path, L_path, output_path) {
   })
   
   # Visualizza i risultati
-  print(S_GO)
+  #print(S_GO)
   
   unique_go_ids <- lapply(S_GO, function(item) {
     unique(item$merge_df$GO_ID)
