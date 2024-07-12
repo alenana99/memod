@@ -190,7 +190,7 @@ We want to associate a GO term with each gene; to do this, we can use [PANNZER2]
 Then, we can use the *fetch_go_details.R* script in order to obtain a dataframe with ontology, name and definition for each GO term:
 
 ```
-fetch_go_details.R -i <GO.out> -o <GO.description.csv
+
 ```
 Let's divide by categories: Molecular Function, Cellular Component and Biological Process and then construct an S for each GO of each category
 ```
