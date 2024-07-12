@@ -173,16 +173,12 @@ We are currently working on this part of the project. Check back soon for update
 GSEA/
 ├── data/
 │    ├── GO.out
-│    ├── pos_ID
-│    ├── pos_mod_strand_motif.tsv
 │    ├── basecalling2_methylated_sites.tsv
-│    ├── GO.ids
 ├── scripts/
-│    ├── fetch_go_details.R
-│    ├── count_meth.py
+│    ├── process_meth.py
 │    ├── process_go.R
 │    ├── create_gene_sets.R
-│    ├── run_GSEA.R
+│    ├── me_GSEA.sh
 └──  README.md
 ```
 
