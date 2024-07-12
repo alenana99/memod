@@ -161,11 +161,11 @@ Feel free to change colors for the plot :wink:
 
 ## Gene Set Enrichment Analysis
 
-:warning: :warning: :warning:
+:warning: :warning: :warning: :warning: :warning: :warning: :warning: :warning: :warning: :warning: :warning: :warning:
 
 # *This section is still a work in progress*
 
-:construction: :construction: :construction:
+:construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction: :construction:
 
 We are currently working on this part of the project. Check back soon for updates.
 
