@@ -8,6 +8,7 @@ ES_wrapper_fast="$INSTALLATION_DIR/ES_wrapper_fast"
 ES_significance2="$INSTALLATION_DIR/ES_significance2"
 GSEA_frd="$INSTALLATION_DIR/GSEA_fdr"
 FDR_wrapper="$INSTALLATION_DIR/FDR_wapper"
+run_GSEA="$INSTALLATION_DIR/run_GSEA.R"
 
 # Funzione per stampare l'help
 print_help() {
