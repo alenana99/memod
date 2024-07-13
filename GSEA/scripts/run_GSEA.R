@@ -28,3 +28,13 @@ run_GSEA <- function(list_S, L) {
   
   return(list(NES_values = NES_values, NES_pi_values = NES_pi_values, FDR_results = FDR_results))
 }
+
+args <- commandArgs(trailingOnly = TRUE)
+list_S_path <- args[1]
+L_path <- args[2]
+
+list_S <- readRDS(list_S_path)
+L <- read.csv(L_path, header = TRUE)
+
+# Esegui GSEA
+gsea_results <- run_GSEA(list_S, L)
