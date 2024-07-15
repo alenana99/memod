@@ -177,7 +177,7 @@ GSEA/
 ├── scripts/
 │    ├── process_meth.py
 │    ├── process_go.R
-│    ├── create_gene_sets.R
+│    ├── 
 │    ├── me_GSEA.sh
 └──  README.md
 ```
