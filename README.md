@@ -84,7 +84,7 @@ First, run MicrobeMod *call_methylation*
 ```
 MicrobeMod call_methylation -b <LIBRARY_NAME>.mapped.bam -r reference_genomes.fna -t 10
 ```
-We used the default parameters, which are robust in most cases, but it is possible to change them. You can re-running with different parameters to see which ones fit best with your data. Many files are created, of which the most important are the two tab-separated tables, one describing information for all methylated sites and one describing output for methylated motifs. these will be used later to continue the analysis with ```mestudio```.
+We used the default parameters, which are robust in most cases, but it is possible to change them. You can re-running with different parameters to see which ones fit best with your data. Many files are created, of which the most important are the two tab-separated tables, one describing information for all methylated sites and one describing output for methylated motifs. These will be used later to continue the analysis with ```mestudio```.
 
 Next, you can run MicrobeMod *annotate_rm*
 ```
