@@ -186,40 +186,32 @@ First, to do a GSEA, we need to get:
 - A gene list L = {g1,...gN} ranked according to the number of methylation (correlation r(g1)=r1)
 - A gene set S (e.g. a pathway or a GO category)
 
-We want to associate a GO term with each gene; to do this, we can use [PANNZER2](http://ekhidna2.biocenter.helsinki.fi/sanspanz/), an automatic service for functional annotation of prokaryotic and eukaryotic proteins of unknown function. We upload the protein file obtained from prokka annotation to PANNZER. In the parameters filters we can select Bacteria to exclude unlikely GO terms. PANNZER2 return us a file <GO.out> with all the GO terms associated with a certain gene of our gene universe, that is, of all the genes that we take into account.
-Then, we can use the *fetch_go_details.R* script in order to obtain a dataframe with ontology, name and definition for each GO term:
+
 
 ```
 
 ```
-Let's divide by categories: Molecular Function, Cellular Component and Biological Process and then construct an S for each GO of each category
-```
-```
-Now, we can use the methylated positions from the MicrobeMod *call_methylation* output file (<LIBRARY_NAME>_methylated_sites.tsv) and the start and end positions of each gene from the GFF3 annotation file to count the number of methylations per gene.
-!! We can also first divide by methylation type and then count the number of methylations and, if we want, we can do the same for upstream positions (200bp upstream)
-```
-```
-Sort by number of methylations
+
 ```
 ```
 
-We can create a list containing $g (gene_ID) and $i ( match S\$g, L$g)  for each GO term of each category (now we use BP for example):
+```
 ```
 
 ```
-Finally, we are ready for GSEA!
-First, with *ES_significance2* function we calculate an Enrichment Score (ES, with *ES_wrapper_fast*) that reflect the degree to which a set S is overrapresented at the top or bottom of the entire ranked list L. The score is calculated by waling down the list L, increasing a running-sum statistic (Phit) when we encounter a gene in S and decreasing it when we encounter genes not in S (on the contrary, Pmiss increases). Then it estimates the statistical significance (P value) of the ES by using a permutation test (bootstrap = 1000): at each iteration, we randomly sample dim(x)[1] rows from L and calculate the ES for each sample and store the result in *ES_pi*. After calculating significance, we adjust the estimated significance level to account for multiple hypothesis testing. We first normalize the ES for each gene set to account for the size of the set, yielding a normalized enrichment score (NES).
-The function return a list containing for each set:
-- **ES**: the initially calculated enrichment statistic
-- **sig**: the calculated significance
-- **NES**: the normalized enrichment statistic
-- **NES_pi**: the normalized bootstrap values
+```
+
+
+```
+
+```
+
 
 ```
 res_ES <- lapply(list_S, function(x) ES_significance2(x,<L>))
 ```
 
-From the obtained list we extract **NES** and **NES_pi** and use them as inputs for *FDR_wrapper* function to compute the False Discovery Rates (FDRs). The FDR is the estimated probability that a set with a given NES rapresents a false positive finding. 
+
 ```
 NES_values <- sapply(myres_ES, function(x) x$NES)
 NES_pi_values <- do.call(c, lapply(myres_ES, function(x) x$NES_pi))
