@@ -172,19 +172,19 @@ We are currently working on this part of the project. Check back soon for update
 ```
 GSEA/
 ├── data/
-│    ├── GO.out
-│    ├── basecalling2_methylated_sites.tsv
-├── scripts/
-│    ├── process_meth.py
-│    ├── process_go.R
 │    ├── 
-│    ├── me_GSEA.sh
+│    ├── 
+├── scripts/
+│    ├── 
+│    ├── 
+│    ├── 
+│    ├── 
 └──  README.md
 ```
 
 First, to do a GSEA, we need to get: 
 - A gene list L = {g1,...gN} ranked according to the number of methylation (correlation r(g1)=r1)
-- A gene set S (e.g. a pathway or a GO category)
+- A gene set S (e.g. a pathway)
 
 
 
@@ -208,13 +208,12 @@ First, to do a GSEA, we need to get:
 
 
 ```
-res_ES <- lapply(list_S, function(x) ES_significance2(x,<L>))
+
 ```
 
 
 ```
-NES_values <- sapply(myres_ES, function(x) x$NES)
-NES_pi_values <- do.call(c, lapply(myres_ES, function(x) x$NES_pi))
+
 ```
 ## Reference
 [*MeStudio* work](https://www.mdpi.com/1422-0067/24/1/159)
