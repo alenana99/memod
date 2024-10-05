@@ -20,7 +20,7 @@ Memod! is a workflow that uses multiple tools for exploring and analyzing prokar
 # Everything you need to install before you begin
 > - minimap2
 > - samtools
-> - R package ("GO.db")
+> - R package ("fgsea")
 > - R package ("optparse")
 > - R package ("AnnotationDbi")
 - **Dorado**
