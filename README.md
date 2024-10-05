@@ -253,6 +253,40 @@ nproc = 1)
 scoreType = 'std': Indicates that both positive and negative scores are used in ranking.
 nproc = 1: Runs the analysis using a single processor.
 
+Extracting Significant Pathways
+
+```
+top_pos_res_GATC <- GATC_fgseares[GATC_fgseares$NES > 0, ]
+top_pos_res_GATC <- top_pos_res_GATC[order(top_pos_res_GATC$padj), ]
+top_pos_res_GATC <- head(top_pos_res_GATC, 16)
+```
+This section extracts the top 16 positively enriched pathways from the GSEA results (GATC_fgseares). It filters pathways with positive NES (Normalized Enrichment Score), orders them by adjusted p-value (padj), and selects the top 16 based on significance.
+```
+top_neg_res_GATC <- GATC_fgseares[GATC_fgseares$NES < 0, ]
+top_neg_res_GATC <- top_neg_res_GATC[order(top_neg_res_GATC$padj), ]
+top_neg_res_GATC <- head(top_neg_res_GATC, 16)
+```
+Similarly, this extracts the top 16 negatively enriched pathways (with negative NES values) and orders them by significance.
+```
+top_pos_res_GATC$direction <- "Positive"
+top_neg_res_GATC$direction <- "Negative"
+combined_pathways_GATC <- rbind(top_pos_res_GATC, top_neg_res_GATC)
+```
+This combines the positive and negative pathways into a single dataset (combined_pathways_GATC) and adds a new column direction to indicate whether the pathway is positively or negatively enriched.
+
+Plotting the NES Values for Significant Pathways
+```
+ggplot(combined_pathways_GATC, aes(x = reorder(pathway, NES), y = NES, fill = direction)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_manual(values = c("Positive" = "skyblue", "Negative" = "deeppink")) +
+  coord_flip() +  
+  labs(title = "Significant Pathways (Top 16)", x = "Pathway", y = "Adjusted P-value (padj)") +
+  theme_minimal()
+```
+This generates a bar plot to visualize the NES values for the top 16 positively and negatively enriched pathways. The bars are colored based on the direction of enrichment:
+- Positive pathways are filled with "skyblue".
+- Negative pathways are filled with "deeppink".
+The plot visually highlights which pathways are significantly enriched based on their NES values and adjusted p-values, making it easier to interpret which biological processes are over- or under-represented based on methylation levels.
 
 ## Reference
 [*MeStudio* work](https://www.mdpi.com/1422-0067/24/1/159)
