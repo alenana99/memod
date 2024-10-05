@@ -216,6 +216,44 @@ Add new column obs/exp, which contains the ratio of observed to expected methyla
 ```
 GATC_merged["obs/exp"] <- GATC_merged$score_CDS/GATC_merged$r_exp
 ```
+The following code creates a bar plot to visualize the residuals (i.e., the differences between observed and expected values). The residuals (GATC_merged$oe) are sorted in descending order and then plotted. This allows you to quickly see which observations deviate the most from the LOESS model's predictions.
+```
+barplot(
+  sort(GATC_merged$oe, decreasing = TRUE),
+  main = "Plot of Sorted Residuals GATC",
+  ylab = "Observed - Expected",
+  border = "black",
+  las = 2,  
+  cex.names = 0.7  
+)
+```
+Now, we are ready to perform GSEA with fgsea function from the FGSEA package. It requires: 
+- pathways: A list of pathways.
+- stats: The ranked vector of observed-to-expected ratios.
+To generate a list of pathway we can use the eggNOG-emapper annotation:
+```
+genes <- vaes.emapper.annotations$query
+KEGG_ko <- vaes.emapper.annotations$KEGG_ko
+pathways <- split(genes, KEGG_ko)
+```
+This part creates a list of pathways where each KEGG pathway (KO) is associated with the genes (query) that map to it. The split() function splits the genes vector by the KEGG_ko, producing a list where the names are the KEGG pathways and the elements are the genes belonging to each pathway.
+To create the vector of gene statistics:
+```
+GATC_ranked_v <- setNames(GATC_tot$`obs/exp`, GATC_tot$attribute)
+```
+This creates a named vector L_GATC_ranked_v, where the values are the observed-to-expected ratios (obs/exp) from the dataset, and the names are gene identifiers (attribute). This vector will be used as the input for the GSEA analysis to rank the genes based on their methylation status.
+
+Now, let's run GSEA:
+```
+GATC_fgseares <- fgsea(pathways = pathways,
+stats = L_GATC_ranked_v,
+scoreType = 'std',
+nproc = 1)
+```
+scoreType = 'std': Indicates that both positive and negative scores are used in ranking.
+nproc = 1: Runs the analysis using a single processor.
+
+
 ## Reference
 [*MeStudio* work](https://www.mdpi.com/1422-0067/24/1/159)
 
