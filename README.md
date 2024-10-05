@@ -286,6 +286,7 @@ ggplot(combined_pathways_GATC, aes(x = reorder(pathway, NES), y = NES, fill = di
 This generates a bar plot to visualize the NES values for the top 16 positively and negatively enriched pathways. The bars are colored based on the direction of enrichment:
 - Positive pathways are filled with "skyblue".
 - Negative pathways are filled with "deeppink".
+
 The plot visually highlights which pathways are significantly enriched based on their NES values and adjusted p-values, making it easier to interpret which biological processes are over- or under-represented based on methylation levels.
 
 ## Reference
