@@ -181,38 +181,52 @@ GSEA/
 │    ├── 
 └──  README.md
 ```
+Among the outputs generated from MeStudio, BED files were produced for each genomic feature (CDS, nCDS, tIG, and US) for each motif. These files contain columns representing the contig (seqid), start and end positions, the attribute (corresponding to the gene ID), the score (representing the number of methylations), and the gene annotation. The BED files are sorted in descending order by the score, with genes displaying the highest number of methylations listed first.
 
-First, to do a GSEA, we need to get: 
-- A gene list L = {g1,...gN} ranked according to the number of methylation (correlation r(g1)=r1)
-- A gene set S (e.g. a pathway)
 
 
 
 ```
+GATC_total <- Reduce(function(x, y) merge(x, y, by = c("attribute", "seqid", "start", "end", "gene.annotation"), all = TRUE),  list(GATC_CDS, GATC_nCDS, GATC_tIG, GATC_US))
+```
+
+```
+GATC_total[is.na(GATC_total)] <- 0
+```
+
+```
+GATC_total$score_tot <- rowSums(GATC_total[, c("score_CDS", "score_nCDS", "score_tIG", "score_US")])
 
 ```
 
 ```
-```
+GATC_total <- GATC_total[order(-GATC_total$score_tot), ]
 
 ```
-```
+To explore the relationship between gene length and the number of methylations, a LOESS (Locally Estimated Scatterplot Smoothing) regression model was applied. 
 
 ```
-```
-
-
-```
+GATC_merged <- merge(GATC_total, vaes_ID_pos_lenght, by = "attribute")
 
 ```
 
 
 ```
+GATC_regr <- loess(score_CDS ~ lenght, data = GATC_merged)
 
 ```
 
 
 ```
+GATC_merged["r_exp"] <- GATC_regr$fitted
+
+```
+```
+GATC_merged["oe"] <- GATC_merged$score_CDS - GATC_merged$r_exp
+
+```
+```
+GATC_merged["obs/exp"] <- GATC_merged$score_CDS/GATC_merged$r_exp
 
 ```
 ## Reference
