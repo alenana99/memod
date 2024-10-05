@@ -184,41 +184,43 @@ GSEA/
 Among the outputs generated from MeStudio, BED files were produced for each genomic feature (CDS, nCDS, tIG, and US) for each motif. These files contain columns representing the contig (seqid), start and end positions, the attribute (corresponding to the gene ID), the score (representing the number of methylations), and the gene annotation. The BED files are sorted in descending order by the score, with genes displaying the highest number of methylations listed first.
 
 
-
+Let's merge multiple data frames (MeStudio BED files output: GATC_CDS, GATC_nCDS, GATC_tIG, and GATC_US) into one:
 
 ```
 GATC_total <- Reduce(function(x, y) merge(x, y, by = c("attribute", "seqid", "start", "end", "gene.annotation"), all = TRUE),  list(GATC_CDS, GATC_nCDS, GATC_tIG, GATC_US))
 ```
-
+Replaces all NA values with 0. It's common to do this when missing data (e.g., NAs) should be treated as zero, which often happens when dealing with scores or counts.
 ```
 GATC_total[is.na(GATC_total)] <- 0
 ```
-
+Create a new column corresponding to the total score that is the sum of the columns for each row. These columns represent different scores related to methylation across CDS (coding sequences), non-coding sequences (nCDS), intergenic regions (tIG), and upstream regions (US).
 ```
 GATC_total$score_tot <- rowSums(GATC_total[, c("score_CDS", "score_nCDS", "score_tIG", "score_US")])
 ```
-
+Reorders the data frame based on the total score column in descending order, ensuring that the highest total scores are at the top.
 ```
 GATC_total <- GATC_total[order(-GATC_total$score_tot), ]
 ```
 To explore the relationship between gene length and the number of methylations, a LOESS (Locally Estimated Scatterplot Smoothing) regression model was applied. 
 
 ```
-GATC_merged <- merge(GATC_total, vaes_ID_pos_lenght, by = "attribute")
+GATC_merged <- merge(GATC_total, ID_pos_lenght, by = "attribute")
 ```
-
+The resulting data frame contains also lenght information from prokka annotation.
 
 ```
 GATC_regr <- loess(score_CDS ~ lenght, data = GATC_merged)
 ```
 
-
+adds a new column r_exp, which contains the fitted values from the LOESS regression model. These fitted values represent the expected number of methylations (score_CDS) based on gene length.
 ```
 GATC_merged["r_exp"] <- GATC_regr$fitted
 ```
+A new column oe (observed - expected) is created, which stores the difference between the actual number of methylations and the expected number. This helps identify genes that have more or fewer methylations than expected based on their length.
 ```
 GATC_merged["oe"] <- GATC_merged$score_CDS - GATC_merged$r_exp
 ```
+Add new column obs/exp, which contains the ratio of observed to expected methylations. A value of 1 would indicate that the observed number of methylations matches the expected number, while values greater or less than 1 suggest over- or under-methylation relative to expectations based on gene length.
 ```
 GATC_merged["obs/exp"] <- GATC_merged$score_CDS/GATC_merged$r_exp
 ```
