@@ -196,38 +196,31 @@ GATC_total[is.na(GATC_total)] <- 0
 
 ```
 GATC_total$score_tot <- rowSums(GATC_total[, c("score_CDS", "score_nCDS", "score_tIG", "score_US")])
-
 ```
 
 ```
 GATC_total <- GATC_total[order(-GATC_total$score_tot), ]
-
 ```
 To explore the relationship between gene length and the number of methylations, a LOESS (Locally Estimated Scatterplot Smoothing) regression model was applied. 
 
 ```
 GATC_merged <- merge(GATC_total, vaes_ID_pos_lenght, by = "attribute")
-
 ```
 
 
 ```
 GATC_regr <- loess(score_CDS ~ lenght, data = GATC_merged)
-
 ```
 
 
 ```
 GATC_merged["r_exp"] <- GATC_regr$fitted
-
 ```
 ```
 GATC_merged["oe"] <- GATC_merged$score_CDS - GATC_merged$r_exp
-
 ```
 ```
 GATC_merged["obs/exp"] <- GATC_merged$score_CDS/GATC_merged$r_exp
-
 ```
 ## Reference
 [*MeStudio* work](https://www.mdpi.com/1422-0067/24/1/159)
