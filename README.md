@@ -173,17 +173,12 @@ GSEA/
 │    ├── prokka_annotation
 ├── scripts/
 │    ├── 
-│    ├── 
-│    ├── 
-│    ├── 
 └──  README.md
 ```
 Among the outputs generated from MeStudio, BED files were produced for each genomic feature (CDS, nCDS, tIG, and US) for each motif. These files contain columns representing the contig (seqid), start and end positions, the attribute (corresponding to the gene ID), the score (representing the number of methylations), and the gene annotation. The BED files are sorted in descending order by the score, with genes displaying the highest number of methylations listed first.
 
 
-Let's merge multiple data frames (MeStudio BED files output: GATC_CDS, GATC_nCDS, GATC_tIG, and GATC_US) into one.
-
-Replaces all NA values with 0.
+Let's merge MeStudio BED files output: GATC_CDS, GATC_nCDS, GATC_tIG, and GATC_US into one dataframe, replacing all NA values with 0:
 
 ```
 GATC_total <- list(
@@ -197,7 +192,7 @@ GATC_total <- list(
 ```
 To explore the relationship between gene length and the number of methylations, a LOESS regression model was applied. 
 
-Adds a new column r_exp, which contains the fitted values from the LOESS regression model. These fitted values represent the expected number of methylations based on gene length. A new column 'oe' (observed - expected) is created, which stores the difference between the actual number of methylations and the expected number. This helps identify genes that have more or fewer methylations than expected based on their length. Add new column obs/exp, which contains the ratio of observed to expected methylations. A value of 1 would indicate that the observed number of methylations matches the expected number, while values greater or less than 1 suggest over- or under-methylation relative to expectations based on gene length.
+A new column 'r_exp' is created, containing the fitted values from the LOESS regression model, that represent the expected number of methylations based on gene length. A new column 'oe' (observed - expected) is created, which stores the difference between the observed and the expected number of methylations. This helps identify genes that have more or fewer methylations than expected based on their length. Another ew column 'obs/exp' is added, containing the ratio of observed to expected methylations. A value of 1 would indicate that the observed number of methylations matches the expected number, while values greater or less than 1 suggest over- or under-methylation relative to expected.
 
 ```
 GATC_merged <- GATC_total %>%
@@ -208,7 +203,7 @@ GATC_merged <- GATC_total %>%
     `obs/exp` = score_CDS / r_exp)
 ```
 
-The following code creates a bar plot to visualize the residuals (i.e., the differences between observed and expected values). The residuals are sorted in descending order and then plotted. This allows you to quickly see which observations deviate the most from the LOESS model's predictions.
+The following code creates a bar plot to visualize the residuals (i.e., the differences between observed and expected values), sorted in descending order. This allows you to quickly see which observations deviate the most from the LOESS model's predictions.
 ```
 barplot(
   sort(GATC_merged$oe, decreasing = TRUE),
@@ -220,20 +215,20 @@ barplot(
 )
 ```
 Now, we are ready to perform GSEA with fgsea function from the FGSEA package. It requires: 
-- pathways: A list of pathways.
+- pathways: A list of functional pathways (we use KEGG KO, but you can use others).
 - stats: The ranked vector of observed-to-expected ratios.
-To generate a list of pathway we can use the eggNOG-emapper annotation:
+
+To generate a list of pathways we can use the eggNOG-emapper annotation. This part creates a list of pathways where each KEGG pathway (KO) is associated with the genes (query) that map to it. The split() function splits the genes vector by the KEGG_ko, producing a list where the names are the KEGG pathways and the elements are the genes belonging to each pathway.
 ```
 pathways <- split(emapper.annotations$query, emapper.annotations$KEGG_ko)
 ```
-This part creates a list of pathways where each KEGG pathway (KO) is associated with the genes (query) that map to it. The split() function splits the genes vector by the KEGG_ko, producing a list where the names are the KEGG pathways and the elements are the genes belonging to each pathway.
 To create the vector of gene statistics:
 ```
 GATC_ranked_v <- setNames(GATC_tot$`obs/exp`, GATC_tot$attribute)
 ```
-This creates a named vector L_GATC_ranked_v, where the values are the observed-to-expected ratios (obs/exp) from the dataset, and the names are gene identifiers (attribute). This vector will be used as the input for the GSEA analysis to rank the genes based on their methylation status.
+This creates a vector, where the values are the observed-to-expected ratios (obs/exp) from the dataset, and the names are gene identifiers (attribute). This vector will be used as the input for the GSEA analysis to rank the genes based on their methylation status.
 
-Now, let's run GSEA:
+Now, let's run fgsea:
 ```
 GATC_fgseares <- fgsea(pathways = pathways,
 stats = GATC_ranked_v,
@@ -244,7 +239,7 @@ scoreType = 'std': Indicates that both positive and negative scores are used in 
 nproc = 1: Runs the analysis using a single processor.
 
 Extracting Significant Pathways
-This section extracts the top 16 positively enriched pathways from the GSEA results (GATC_fgseares). It filters pathways with positive NES (Normalized Enrichment Score), orders them by adjusted p-value (padj), and selects the top 16 based on significance.
+This section extracts the top 16 positively enriched pathways from the GSEA results. It filters pathways with positive NES (Normalized Enrichment Score), orders them by adjusted p-value (padj), and selects the top 16.
 
 ```
 combined_pathways_GATC <- GATC_fgseares %>%
@@ -264,7 +259,11 @@ combined_pathways_GATC <- GATC_fgseares %>%
 
 This combines the positive and negative pathways into a single dataset and adds a new column direction to indicate whether the pathway is positively or negatively enriched.
 
-Plotting the NES Values for Significant Pathways
+To plot the NES values for significant pathways we can use ggplot. This generates a bar plot to visualize the NES values for the top 16 positively and negatively enriched pathways. The bars are colored based on the direction of enrichment:
+- Positive pathways are filled with "skyblue".
+- Negative pathways are filled with "deeppink".
+
+The plot visually highlights which pathways are significantly enriched based on their NES values and adjusted p-values, making it easier to interpret which biological processes are over- or under-represented based on methylation levels.
 ```
 ggplot(combined_pathways_GATC, aes(x = reorder(pathway, NES), y = NES, fill = direction)) +
   geom_bar(stat = "identity", position = "dodge") +
@@ -273,12 +272,6 @@ ggplot(combined_pathways_GATC, aes(x = reorder(pathway, NES), y = NES, fill = di
   labs(title = "Significant Pathways (Top 16)", x = "Pathway", y = "Adjusted P-value (padj)") +
   theme_minimal()
 ```
-
-This generates a bar plot to visualize the NES values for the top 16 positively and negatively enriched pathways. The bars are colored based on the direction of enrichment:
-- Positive pathways are filled with "skyblue".
-- Negative pathways are filled with "deeppink".
-
-The plot visually highlights which pathways are significantly enriched based on their NES values and adjusted p-values, making it easier to interpret which biological processes are over- or under-represented based on methylation levels.
 
 
 ![Our plot](plots/significant_pathways_GATC.png)
