@@ -176,46 +176,29 @@ Among the outputs generated from MeStudio, BED files were produced for each geno
 
 
 Let's merge multiple data frames (MeStudio BED files output: GATC_CDS, GATC_nCDS, GATC_tIG, and GATC_US) into one:
-
-```
-GATC_total <- Reduce(function(x, y) merge(x, y, by = c("attribute", "seqid", "start", "end", "gene.annotation"), all = TRUE),  list(GATC_CDS, GATC_nCDS, GATC_tIG, GATC_US))
-```
 Replaces all NA values with 0. It's common to do this when missing data (e.g., NAs) should be treated as zero, which often happens when dealing with scores or counts.
 ```
-GATC_total[is.na(GATC_total)] <- 0
+GATC_total <- list(
+  GATC_CDS %>% rename(score_CDS = score),
+  GATC_nCDS %>% rename(score_nCDS = score),
+  GATC_tIG %>% rename(score_tIG = score),
+  GATC_US %>% rename(score_US = score)
+) %>%
+  reduce(function(x, y) merge(x, y, by = c("attribute", "seqid", "start", "end", "gene.annotation"), all = TRUE)) %>%
+  mutate(across(everything(), ~ replace_na(., 0)))
 ```
-Create a new column corresponding to the total score that is the sum of the columns for each row. These columns represent different scores related to methylation across CDS (coding sequences), non-coding sequences (nCDS), intergenic regions (tIG), and upstream regions (US).
-```
-GATC_total$score_tot <- rowSums(GATC_total[, c("score_CDS", "score_nCDS", "score_tIG", "score_US")])
-```
-Reorders the data frame based on the total score column in descending order, ensuring that the highest total scores are at the top.
-```
-GATC_total <- GATC_total[order(-GATC_total$score_tot), ]
-```
-To explore the relationship between gene length and the number of methylations, a LOESS (Locally Estimated Scatterplot Smoothing) regression model was applied. 
+To explore the relationship between gene length and the number of methylations, a LOESS (Locally Estimated Scatterplot Smoothing) regression model was applied. adds a new column r_exp, which contains the fitted values from the LOESS regression model. These fitted values represent the expected number of methylations (score_CDS) based on gene length. A new column oe (observed - expected) is created, which stores the difference between the actual number of methylations and the expected number. This helps identify genes that have more or fewer methylations than expected based on their length. Add new column obs/exp, which contains the ratio of observed to expected methylations. A value of 1 would indicate that the observed number of methylations matches the expected number, while values greater or less than 1 suggest over- or under-methylation relative to expectations based on gene length.
 
 ```
-GATC_merged <- merge(GATC_total, ID_pos_lenght, by = "attribute")
+GATC_merged <- GATC_total %>%
+  merge(ID_pos_length, by = "attribute") %>%
+  mutate(
+    r_exp = loess(score_CDS ~ length, data = .)$fitted,
+    oe = score_CDS - r_exp,
+    `obs/exp` = score_CDS / r_exp)
 ```
-The resulting data frame contains also lenght information from prokka annotation.
 
-```
-GATC_regr <- loess(score_CDS ~ lenght, data = GATC_merged)
-```
-
-adds a new column r_exp, which contains the fitted values from the LOESS regression model. These fitted values represent the expected number of methylations (score_CDS) based on gene length.
-```
-GATC_merged["r_exp"] <- GATC_regr$fitted
-```
-A new column oe (observed - expected) is created, which stores the difference between the actual number of methylations and the expected number. This helps identify genes that have more or fewer methylations than expected based on their length.
-```
-GATC_merged["oe"] <- GATC_merged$score_CDS - GATC_merged$r_exp
-```
-Add new column obs/exp, which contains the ratio of observed to expected methylations. A value of 1 would indicate that the observed number of methylations matches the expected number, while values greater or less than 1 suggest over- or under-methylation relative to expectations based on gene length.
-```
-GATC_merged["obs/exp"] <- GATC_merged$score_CDS/GATC_merged$r_exp
-```
-The following code creates a bar plot to visualize the residuals (i.e., the differences between observed and expected values). The residuals (GATC_merged$oe) are sorted in descending order and then plotted. This allows you to quickly see which observations deviate the most from the LOESS model's predictions.
+The following code creates a bar plot to visualize the residuals (i.e., the differences between observed and expected values). The residuals are sorted in descending order and then plotted. This allows you to quickly see which observations deviate the most from the LOESS model's predictions.
 ```
 barplot(
   sort(GATC_merged$oe, decreasing = TRUE),
@@ -231,9 +214,7 @@ Now, we are ready to perform GSEA with fgsea function from the FGSEA package. It
 - stats: The ranked vector of observed-to-expected ratios.
 To generate a list of pathway we can use the eggNOG-emapper annotation:
 ```
-genes <- vaes.emapper.annotations$query
-KEGG_ko <- vaes.emapper.annotations$KEGG_ko
-pathways <- split(genes, KEGG_ko)
+pathways <- split(emapper.annotations$query, emapper.annotations$KEGG_ko)
 ```
 This part creates a list of pathways where each KEGG pathway (KO) is associated with the genes (query) that map to it. The split() function splits the genes vector by the KEGG_ko, producing a list where the names are the KEGG pathways and the elements are the genes belonging to each pathway.
 To create the vector of gene statistics:
@@ -245,7 +226,7 @@ This creates a named vector L_GATC_ranked_v, where the values are the observed-t
 Now, let's run GSEA:
 ```
 GATC_fgseares <- fgsea(pathways = pathways,
-stats = L_GATC_ranked_v,
+stats = GATC_ranked_v,
 scoreType = 'std',
 nproc = 1)
 ```
@@ -253,25 +234,25 @@ scoreType = 'std': Indicates that both positive and negative scores are used in 
 nproc = 1: Runs the analysis using a single processor.
 
 Extracting Significant Pathways
+This section extracts the top 16 positively enriched pathways from the GSEA results (GATC_fgseares). It filters pathways with positive NES (Normalized Enrichment Score), orders them by adjusted p-value (padj), and selects the top 16 based on significance.
 
 ```
-top_pos_res_GATC <- GATC_fgseares[GATC_fgseares$NES > 0, ]
-top_pos_res_GATC <- top_pos_res_GATC[order(top_pos_res_GATC$padj), ]
-top_pos_res_GATC <- head(top_pos_res_GATC, 16)
+combined_pathways_GATC <- GATC_fgseares %>%
+  filter(NES > 0) %>%
+  arrange(padj) %>%
+  head(16) %>%
+  mutate(direction = "Positive") %>%
+  bind_rows(
+      GATC_fgseares %>%
+      filter(NES < 0) %>%
+      arrange(padj) %>%
+      head(16) %>%
+      mutate(direction = "Negative")
+  ) %>%
+  filter(pathway != "-")
 ```
-This section extracts the top 16 positively enriched pathways from the GSEA results (GATC_fgseares). It filters pathways with positive NES (Normalized Enrichment Score), orders them by adjusted p-value (padj), and selects the top 16 based on significance.
-```
-top_neg_res_GATC <- GATC_fgseares[GATC_fgseares$NES < 0, ]
-top_neg_res_GATC <- top_neg_res_GATC[order(top_neg_res_GATC$padj), ]
-top_neg_res_GATC <- head(top_neg_res_GATC, 16)
-```
-Similarly, this extracts the top 16 negatively enriched pathways (with negative NES values) and orders them by significance.
-```
-top_pos_res_GATC$direction <- "Positive"
-top_neg_res_GATC$direction <- "Negative"
-combined_pathways_GATC <- rbind(top_pos_res_GATC, top_neg_res_GATC)
-```
-This combines the positive and negative pathways into a single dataset (combined_pathways_GATC) and adds a new column direction to indicate whether the pathway is positively or negatively enriched.
+
+This combines the positive and negative pathways into a single dataset and adds a new column direction to indicate whether the pathway is positively or negatively enriched.
 
 Plotting the NES Values for Significant Pathways
 ```
