@@ -20,10 +20,7 @@ Memod! is a workflow that uses multiple tools for exploring and analyzing prokar
 # Everything you need to install before you begin
 > - minimap2
 > - samtools
-> - R package ("fgsea")
 > - R package ("optparse")
-> - R package ("dplyr")
-> - R package ("purrr")
 - **Dorado**
 > - dorado
 	
@@ -42,7 +39,11 @@ Memod! is a workflow that uses multiple tools for exploring and analyzing prokar
  > - R package ("circlize")
  > - readlink
  > - python 3.8 (or above)
- > 
+ >
+ - **GSEA**
+ > - R package ("fgsea")
+ > - R package ("dplyr")
+ > - R package ("purrr")
 ## STEP 1: BASECALLING W/ DORADO
 
 Dorado is a high-performance, easy-to-use, open source basecaller for Oxford Nanopore reads. 
