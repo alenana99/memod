@@ -166,8 +166,11 @@ Feel free to change colors for the plot :wink:
 ```
 GSEA/
 ├── data/
-│    ├── 
-│    ├── 
+│    ├── GATC_CDS.bed
+│    ├── GATC_nCDS.bed
+│    ├── GATC_tIG.bed
+│    ├── GATC_US.bed
+│    ├── prokka_annotation
 ├── scripts/
 │    ├── 
 │    ├── 
