@@ -22,6 +22,8 @@ Memod! is a workflow that uses multiple tools for exploring and analyzing prokar
 > - samtools
 > - R package ("fgsea")
 > - R package ("optparse")
+> - R package ("dplyr")
+> - R package ("purrr")
 - **Dorado**
 > - dorado
 	
