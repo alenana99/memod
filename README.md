@@ -263,6 +263,7 @@ ggplot(combined_pathways_GATC, aes(x = reorder(pathway, NES), y = NES, fill = di
   labs(title = "Significant Pathways (Top 16)", x = "Pathway", y = "Adjusted P-value (padj)") +
   theme_minimal()
 ```
+
 This generates a bar plot to visualize the NES values for the top 16 positively and negatively enriched pathways. The bars are colored based on the direction of enrichment:
 - Positive pathways are filled with "skyblue".
 - Negative pathways are filled with "deeppink".
