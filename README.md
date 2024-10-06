@@ -175,8 +175,10 @@ GSEA/
 Among the outputs generated from MeStudio, BED files were produced for each genomic feature (CDS, nCDS, tIG, and US) for each motif. These files contain columns representing the contig (seqid), start and end positions, the attribute (corresponding to the gene ID), the score (representing the number of methylations), and the gene annotation. The BED files are sorted in descending order by the score, with genes displaying the highest number of methylations listed first.
 
 
-Let's merge multiple data frames (MeStudio BED files output: GATC_CDS, GATC_nCDS, GATC_tIG, and GATC_US) into one:
-Replaces all NA values with 0. It's common to do this when missing data (e.g., NAs) should be treated as zero, which often happens when dealing with scores or counts.
+Let's merge multiple data frames (MeStudio BED files output: GATC_CDS, GATC_nCDS, GATC_tIG, and GATC_US) into one.
+
+Replaces all NA values with 0.
+
 ```
 GATC_total <- list(
   GATC_CDS %>% rename(score_CDS = score),
@@ -187,7 +189,9 @@ GATC_total <- list(
   reduce(function(x, y) merge(x, y, by = c("attribute", "seqid", "start", "end", "gene.annotation"), all = TRUE)) %>%
   mutate(across(everything(), ~ replace_na(., 0)))
 ```
-To explore the relationship between gene length and the number of methylations, a LOESS (Locally Estimated Scatterplot Smoothing) regression model was applied. adds a new column r_exp, which contains the fitted values from the LOESS regression model. These fitted values represent the expected number of methylations (score_CDS) based on gene length. A new column oe (observed - expected) is created, which stores the difference between the actual number of methylations and the expected number. This helps identify genes that have more or fewer methylations than expected based on their length. Add new column obs/exp, which contains the ratio of observed to expected methylations. A value of 1 would indicate that the observed number of methylations matches the expected number, while values greater or less than 1 suggest over- or under-methylation relative to expectations based on gene length.
+To explore the relationship between gene length and the number of methylations, a LOESS regression model was applied. 
+
+Adds a new column r_exp, which contains the fitted values from the LOESS regression model. These fitted values represent the expected number of methylations based on gene length. A new column 'oe' (observed - expected) is created, which stores the difference between the actual number of methylations and the expected number. This helps identify genes that have more or fewer methylations than expected based on their length. Add new column obs/exp, which contains the ratio of observed to expected methylations. A value of 1 would indicate that the observed number of methylations matches the expected number, while values greater or less than 1 suggest over- or under-methylation relative to expectations based on gene length.
 
 ```
 GATC_merged <- GATC_total %>%
