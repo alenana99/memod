@@ -231,9 +231,9 @@ This creates a vector, where the values are the observed-to-expected ratios (obs
 Now, let's run fgsea:
 ```
 GATC_fgseares <- fgsea(pathways = pathways,
-stats = GATC_ranked_v,
-scoreType = 'std',
-nproc = 1)
+		 stats = GATC_ranked_v,
+		 scoreType = 'std',
+		 nproc = 1)
 ```
 scoreType = 'std': Indicates that both positive and negative scores are used in ranking.
 nproc = 1: Runs the analysis using a single processor.
