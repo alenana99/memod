@@ -274,7 +274,7 @@ ggplot(combined_pathways_GATC, aes(x = reorder(pathway, NES), y = NES, fill = di
 ```
 
 
-![Our plot](plots/significant_pathways_GATC.png)
+![Our plot](plots/TopSignificantPathwaysGATC.pdf)
 
 
 ## Reference
