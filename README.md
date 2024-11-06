@@ -218,9 +218,9 @@ Now, we are ready to perform GSEA with fgsea function from the FGSEA package. It
 - pathways: A list of functional pathways (we use KEGG KO, but you can use others).
 - stats: The ranked vector of observed-to-expected ratios.
 
-To generate a list of pathways we can use the eggNOG-emapper annotation. This part creates a list of pathways where each KEGG pathway (KO) is associated with the genes (query) that map to it. The split() function splits the genes vector by the KEGG_ko, producing a list where the names are the KEGG pathways and the elements are the genes belonging to each pathway.
+To generate a list of pathways we can use the eggNOG-emapper annotation. This part creates a list of pathways where each KEGG pathway (KEGG_pathway) is associated with the genes (query) that map to it. The split() function splits the genes vector by the KEGG_pathway, producing a list where the names are the KEGG pathways and the elements are the genes belonging to each pathway.
 ```
-pathways <- split(emapper.annotations$query, emapper.annotations$KEGG_ko)
+pathways <- split(emapper.annotations$query, emapper.annotations$KEGG_pathway)
 ```
 To create the vector of gene statistics:
 ```
