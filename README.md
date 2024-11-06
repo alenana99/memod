@@ -276,7 +276,6 @@ ggplot(combined_pathways_GATC, aes(x = reorder(pathway, NES), y = NES, fill = di
 
 ![Our plot](https://github.com/alenana99/memod/blob/main/plots/TopSignificantPathwaysGATC.pdf)
 
-
 ## Reference
 [*MeStudio* work](https://www.mdpi.com/1422-0067/24/1/159)
 
